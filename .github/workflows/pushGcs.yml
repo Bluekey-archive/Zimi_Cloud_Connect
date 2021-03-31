@@ -19,10 +19,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+    - run: | 
+          ls 
     - id: upload-folder
       uses: google-github-actions/upload-cloud-storage@main
       with:
         credentials: ${{ secrets.gcp_credentials }}
-        path: ../OTA_GCP_RELEASE
+        path: ../
         destination: zimi-dev-test-cdn-bucket
+    - id: list-updated-files
+      run: | 
+        echo ${{steps.upload-folder.outputs.uploaded}}
