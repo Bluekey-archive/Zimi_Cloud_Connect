@@ -22,12 +22,25 @@ jobs:
     - uses: actions/checkout@v2
     - run: | 
           ls 
-    - id: upload-folder
+    - id: upload-folder-dev
       uses: google-github-actions/upload-cloud-storage@main
       with:
         credentials: ${{ secrets.gcp_credentials }}
         path: ../
         destination: zimi-dev-test-cdn-bucket
-    - id: list-updated-files
+    - id: list-updated-files-dev
       run: | 
-        echo ${{steps.upload-folder.outputs.uploaded}}
+        echo ${{steps.upload-folder-dev.outputs.uploaded}}
+        
+    - id: upload-folder-prod
+      uses: google-github-actions/upload-cloud-storage@main
+      with:
+        credentials: ${{ secrets.gcp_credentials_production }}
+        path: ../
+        destination: zimi-production-ota-cdn-bucket
+    - id: list-updated-files-prod
+      run: | 
+        echo ${{steps.upload-folder-prod.outputs.uploaded}}        
+        
+
+
